@@ -20,14 +20,17 @@
           <label for="name" class="form-label">Project Name</label>
           <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
       </div>
+
       <div class="mb-3">
           <label for="cient_name" class="form-label">Client Name</label>
           <input type="text" class="form-control" id="client_name" name="client_name" value="{{ old('client_name') }}">
       </div>
+
       <div class="mb-3">
         <label for="image" class="form-label">Upload Image</label>
         <input class="form-control" type="file" id="image" name="image">
       </div>
+
       <div class="mb-3" >
         <label for="type_id" class="form-label" >Select a Type</label>
         <select class="form-select"  id="type_id"  name="type_id" aria-label="Default select example">
@@ -37,6 +40,23 @@
           @endforeach
         </select>
       </div>
+
+      <div class="mb-2" >
+        Technologies
+      </div>
+
+      <div class="mb-3 d-flex gap-4" >
+        
+        @foreach ($technologies as $technology)
+        <div class="form-check">
+          <input @checked(in_array($technology->id, old('technologies', []))) class="form-check-input" type="checkbox" name="technologies[]" value="{{ $technology->id }}" id="{{ $technology->id }}">
+          <label class="form-check-label" for="{{ $technology->id }}">
+            {{ $technology->name }}
+          </label>
+        </div>
+        @endforeach
+      </div>
+
       <div class="mb-3 mt-4">
           <label for="summary" class="form-label">Summmary</label>
           <textarea class="form-control" id="description" rows="15" name="summary">{{ old('summary') }}</textarea>
