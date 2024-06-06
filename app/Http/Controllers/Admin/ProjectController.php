@@ -56,7 +56,8 @@ class ProjectController extends Controller
                 'name' => 'required|min:6|unique:projects,name', //unique si specifica il nome della tabella e della colonna
                 'client_name' => 'required|min:6|',
                 'image' => 'nullable|image|',
-                'type_id' => 'nullable|exists:types,id'
+                'type_id' => 'nullable|exists:types,id',
+                'technologies' => 'nullable|exists:technologies,id',
                 
             ]
         );
@@ -71,12 +72,14 @@ class ProjectController extends Controller
             
         };
 
-        dd($formData['technologies']);
-
         $newProject = new Project();
         $newProject->fill($formData);
         $newProject->slug = Str::slug($newProject->name, '-');
         $newProject->save();
+
+        if($request->has('technologies')) {
+            $newProject->technologies()->attach($formData['technologies']);
+        };
 
         return redirect()->route('admin.projects.show', ['project' => $newProject->slug])->with('success', 'Project: ' . $newProject->name . ' successfully created!');
     }
@@ -132,7 +135,8 @@ class ProjectController extends Controller
                 
                 'client_name' => 'required|min:6|',
                 'image' => 'nullable|image',
-                'type_id' => 'nullable|exists:types,id'
+                'type_id' => 'nullable|exists:types,id',
+                'technologies' => 'nullable|exists:technologies,id',
                 
             ]
         );

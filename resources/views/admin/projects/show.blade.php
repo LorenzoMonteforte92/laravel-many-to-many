@@ -28,6 +28,18 @@
                       @if ($project->type)
                         <p class="card-text"><strong>Type</strong>: {{ $project->type->name }}</p>
                       @endif
+
+                      <p class="card-text"><strong>Technology</strong>:
+                        @if (count($project->technologies) > 0)
+                            @foreach ($project->technologies as $technology)
+                                {{ $technology->name }} @if (!$loop->last)
+                                    ,
+                                @endif
+                            @endforeach
+                        @else
+                            none selected
+                        @endif
+
                       @if ($project->summary )
                         <p class="card-text"><strong>Summary:</strong> {{ $project->summary }}</p>
                       @endif
